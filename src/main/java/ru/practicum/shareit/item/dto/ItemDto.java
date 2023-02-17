@@ -6,6 +6,9 @@ import lombok.Setter;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.User;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * TODO Sprint add-controllers.
  */
@@ -15,8 +18,13 @@ import ru.practicum.shareit.user.User;
 public class ItemDto {
     private Long id;
     private User owner;
+    @NotNull
+    @NotBlank
     private String name;
+    @NotNull
+    @NotBlank
     private String description;
+    @NotNull
     private Boolean available;
     private ItemRequest request;
 }

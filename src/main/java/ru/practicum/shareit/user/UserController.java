@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping
     public UserDto add(@Validated @RequestBody UserDto userDto) {
-        return userService.saveUser(userDto);
+        return userService.addUser(userDto);
     }
 
     @DeleteMapping("/{id}")

@@ -9,7 +9,7 @@ public interface UserService {
 
     UserDto findById(long id);
 
-    UserDto saveUser(UserDto userDto);
+    UserDto addUser(UserDto userDto);
 
     UserDto edit(long userId, UserDto userDto);
 

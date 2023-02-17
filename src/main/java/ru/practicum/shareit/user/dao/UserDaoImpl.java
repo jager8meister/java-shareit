@@ -1,6 +1,8 @@
 package ru.practicum.shareit.user.dao;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.user.User;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class UserDaoImpl implements UserDao{
 
     private void invalidUserIdCheck(long id) {
         if (!userMap.containsKey(id)) {
-            throw new RuntimeException("Invalid user id");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
         }
     }
 

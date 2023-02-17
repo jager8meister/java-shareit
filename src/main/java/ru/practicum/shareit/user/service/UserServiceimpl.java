@@ -24,7 +24,7 @@ public class UserServiceimpl implements UserService{
     }
 
     @Override
-    public UserDto saveUser(UserDto userDto) {
+    public UserDto addUser(UserDto userDto) {
         return UserMapper.toUserDto(userDao.save(UserMapper.toUser(userDto)));
     }
 

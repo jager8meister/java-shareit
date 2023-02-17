@@ -1,35 +1,53 @@
 package ru.practicum.shareit.item.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.ItemMapper;
+import ru.practicum.shareit.item.dao.ItemDao;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.UserMapper;
+import ru.practicum.shareit.user.service.UserService;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ItemServiceImpl implements ItemService{
-
+    private final ItemDao itemDao;
+    private final UserService userService;
     @Override
     public ItemDto add(long userId, ItemDto itemDto) {
-        return null;
+        User user = UserMapper.toUser(userService.findById(userId));
+        itemDto.setOwner(user);
+        Item item = itemDao.add(userId, ItemMapper.toItem(itemDto));
+        return ItemMapper.toItemDto(item);
     }
 
     @Override
     public ItemDto edit(long userId, long itemId, ItemDto itemDto) {
-        return null;
+        if (!itemDao.findById(itemId).getOwner().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
+        }
+        User owner = UserMapper.toUser(userService.findById(userId));
+        return ItemMapper.toItemDto(itemDao.edit(userId, itemId, ItemMapper.toItem(itemDto)));
     }
 
     @Override
     public ItemDto findById(long itemId) {
-        return null;
+        return ItemMapper.toItemDto(itemDao.findById(itemId));
     }
 
     @Override
     public List<ItemDto> findAll(long userId) {
-        return null;
+        return ItemMapper.toItemDtoList(itemDao.findAll(userId));
     }
 
     @Override
     public List<ItemDto> search(String text) {
-        return null;
+        return ItemMapper.toItemDtoList(itemDao.search(text));
     }
 }
