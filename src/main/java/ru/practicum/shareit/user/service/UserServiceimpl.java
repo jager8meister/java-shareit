@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class UserServiceimpl implements UserService{
+public class UserServiceimpl implements UserService {
     private final UserDao userDao;
 
     @Override
