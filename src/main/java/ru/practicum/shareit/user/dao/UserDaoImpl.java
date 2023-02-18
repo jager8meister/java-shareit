@@ -14,6 +14,7 @@ import java.util.Map;
 public class UserDaoImpl implements UserDao {
     private long id;
     private Map<Long, User> userMap = new HashMap<>();
+
     @Override
     public List<User> findAll() {
         return new ArrayList<>(userMap.values());
