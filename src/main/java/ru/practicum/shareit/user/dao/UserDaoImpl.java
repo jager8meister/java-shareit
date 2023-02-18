@@ -14,7 +14,6 @@ import java.util.Map;
 public class UserDaoImpl implements UserDao {
     private long id;
     private Map<Long, User> userMap = new HashMap<>();
-
     @Override
     public List<User> findAll() {
         return new ArrayList<>(userMap.values());
@@ -38,7 +37,7 @@ public class UserDaoImpl implements UserDao {
     public User edit(long id, User user) {
         invalidUserIdCheck(id);
         User userFromMap = userMap.get(id);
-        if (user.getEmail() != null) {
+        if (user.getEmail() != null && !user.getEmail().equals(userFromMap.getEmail())) {
             checkEmailUsage(user);
             userFromMap.setEmail(user.getEmail());
         }
