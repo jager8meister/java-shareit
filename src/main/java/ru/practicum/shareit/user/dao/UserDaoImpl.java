@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
     private long id;
     private Map<Long, User> userMap = new HashMap<>();
+
     @Override
     public List<User> findAll() {
         return new ArrayList<>(userMap.values());

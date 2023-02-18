@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserMapper {
-    private UserMapper() {}
+    private UserMapper() {
+
+    }
 
     public static UserDto toUserDto(User user) {
         return new UserDto(

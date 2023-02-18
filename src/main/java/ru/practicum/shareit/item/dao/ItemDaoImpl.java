@@ -6,7 +6,7 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.*;
 
 @Repository
-public class ItemDaoImpl implements ItemDao{
+public class ItemDaoImpl implements ItemDao {
     private long id = 1;
     private final Map<Long, Item> items = new HashMap<>();
     private final Map<Long, Set<Long>> userItems = new HashMap<>();

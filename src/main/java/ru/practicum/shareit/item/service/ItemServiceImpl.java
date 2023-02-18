@@ -16,9 +16,10 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
     private final ItemDao itemDao;
     private final UserService userService;
+
     @Override
     public ItemDto add(long userId, ItemDto itemDto) {
         User user = UserMapper.toUser(userService.findById(userId));
