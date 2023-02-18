@@ -32,7 +32,6 @@ public class ItemServiceImpl implements ItemService{
         if (!itemDao.findById(itemId).getOwner().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
         }
-        User owner = UserMapper.toUser(userService.findById(userId));
         return ItemMapper.toItemDto(itemDao.edit(userId, itemId, ItemMapper.toItem(itemDto)));
     }
 

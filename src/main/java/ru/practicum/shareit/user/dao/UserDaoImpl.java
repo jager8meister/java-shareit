@@ -63,14 +63,14 @@ public class UserDaoImpl implements UserDao{
     private void valid(User user) {
         checkEmailUsage(user);
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
-            throw new RuntimeException("invalid input in user email");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "invalid input in user email");
         }
     }
 
     private void checkEmailUsage(User user) {
         for (User userCheck : userMap.values()) {
             if (user.getEmail().equals(userCheck.getEmail())) {
-                throw new RuntimeException("email is already in use");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "email is already in use");
             }
         }
     }

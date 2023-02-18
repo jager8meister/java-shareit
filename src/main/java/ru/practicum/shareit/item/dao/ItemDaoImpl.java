@@ -31,11 +31,14 @@ public class ItemDaoImpl implements ItemDao{
         Item userItem = items.get(itemId);
         if (item.getName() != null) {
             userItem.setName(item.getName());
-        } if (item.getDescription() != null) {
+        }
+        if (item.getDescription() != null) {
             userItem.setDescription(item.getDescription());
-        } if (item.getAvailable() != null) {
+        }
+        if (item.getAvailable() != null) {
             userItem.setAvailable(item.getAvailable());
-        } if (item.getOwner() != null) {
+        }
+        if (item.getOwner() != null) {
             userItem.setOwner(item.getOwner());
         }
         items.put(itemId, userItem);
@@ -44,7 +47,6 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public Item findById(long itemId) {
-        Item item = items.get(itemId);
         return items.get(itemId);
     }
 
@@ -52,8 +54,8 @@ public class ItemDaoImpl implements ItemDao{
     public List<Item> findAll(long userId) {
         if (userItems.containsKey(userId)) {
             List<Item> result = new ArrayList<>();
-            for (Long id: userItems.get(userId)) {
-                result.add(items.get(id));
+            for (Long itemId: userItems.get(userId)) {
+                result.add(items.get(itemId));
             }
             return result;
         }
