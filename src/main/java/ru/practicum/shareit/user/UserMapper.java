@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import lombok.NonNull;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class UserMapper {
 
     }
 
-    public static UserDto toUserDto(User user) {
+    public static UserDto toUserDto(@NonNull User user) {
         return new UserDto(
                 user.getId(),
                 user.getName(),
@@ -18,7 +19,7 @@ public class UserMapper {
         );
     }
 
-    public static List<UserDto> toUserDtoList(List<User> userList) {
+    public static List<UserDto> toUserDtoList(@NonNull List<User> userList) {
         List<UserDto> result = new ArrayList<>();
         for (User user : userList) {
             result.add(toUserDto(user));
@@ -26,7 +27,7 @@ public class UserMapper {
         return result;
     }
 
-    public static User toUser(UserDto userDto) {
+    public static User toUser(@NonNull UserDto userDto) {
         return new User(
                 userDto.getId(),
                 userDto.getName(),

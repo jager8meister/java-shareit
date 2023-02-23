@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import lombok.NonNull;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 
@@ -11,7 +12,7 @@ public class ItemMapper {
 
     }
 
-    public static ItemDto toItemDto(Item item) {
+    public static ItemDto toItemDto(@NonNull Item item) {
         return new ItemDto(
                 item.getId(),
                 item.getOwner(),
@@ -22,7 +23,7 @@ public class ItemMapper {
         );
     }
 
-    public static Item toItem(ItemDto itemDto) {
+    public static Item toItem(@NonNull ItemDto itemDto) {
         return new Item(
                 itemDto.getId(),
                 itemDto.getOwner(),
@@ -33,7 +34,7 @@ public class ItemMapper {
         );
     }
 
-    public static List<ItemDto> toItemDtoList(List<Item> itemList) {
+    public static List<ItemDto> toItemDtoList(@NonNull List<Item> itemList) {
         List<ItemDto> result = new ArrayList<>();
         for (Item item : itemList) {
             result.add(toItemDto(item));
