@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Slf4j
 public class UserDaoImpl implements UserDao {
     private long id;
     private Map<Long, User> userMap = new HashMap<>();
@@ -51,6 +53,7 @@ public class UserDaoImpl implements UserDao {
 
     private void invalidUserIdCheck(long id) {
         if (!userMap.containsKey(id)) {
+            log.error("Invalid user id " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
         }
     }
@@ -64,6 +67,7 @@ public class UserDaoImpl implements UserDao {
     private void valid(User user) {
         checkEmailUsage(user);
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            log.error("Invalid email input in user " + user.toString());
             throw new ResponseStatusException(HttpStatus.CONFLICT, "invalid input in user email");
         }
     }
@@ -71,6 +75,7 @@ public class UserDaoImpl implements UserDao {
     private void checkEmailUsage(User user) {
         for (User userCheck : userMap.values()) {
             if (user.getEmail().equals(userCheck.getEmail())) {
+                log.error("Email " + user.getEmail() + " is already in use");
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "email is already in use");
             }
         }

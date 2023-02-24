@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemDao itemDao;
     private final UserService userService;
@@ -31,6 +33,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto edit(long userId, long itemId, ItemDto itemDto) {
         if (!itemDao.findById(itemId).getOwner().getId().equals(userId)) {
+            log.error("Invalid user id " + userId);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user id");
         }
         return ItemMapper.toItemDto(itemDao.edit(userId, itemId, ItemMapper.toItem(itemDto)));

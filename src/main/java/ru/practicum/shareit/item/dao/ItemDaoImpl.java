@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.dao;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.model.Item;
 
@@ -55,8 +56,8 @@ public class ItemDaoImpl implements ItemDao {
     public List<Item> search(String text) {
         List<Item> result = new ArrayList<>();
         for (Item item: getAllItems()) {
-            if (item.getAvailable() && (item.getName().toLowerCase().contains(text.toLowerCase())
-            || item.getDescription().toLowerCase().contains(text.toLowerCase()))) {
+            if (item.getAvailable() && (StringUtils.containsIgnoreCase(item.getName(), text)
+            || StringUtils.containsIgnoreCase(item.getDescription(), text))) {
                 result.add(item);
             }
         }
