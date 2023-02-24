@@ -8,27 +8,22 @@ import java.util.*;
 @Repository
 public class ItemDaoImpl implements ItemDao {
     private long id = 1;
-    private final Map<Long, Item> items = new HashMap<>();
-    private final Map<Long, Set<Long>> userItems = new HashMap<>();
+    private final Map<Long, Set<Item>> userItems = new HashMap<>();
 
     @Override
     public Item add(long userId, Item item) {
         item.setId(id++);
-        items.put(item.getId(), item);
         if (userItems.get(userId) == null) {
             userItems.put(userId, new HashSet<>());
-            Set<Long> ids = userItems.get(userId);
-            ids.add(item.getId());
+            Set<Item> ids = userItems.get(userId);
+            ids.add(item);
         }
-        Set<Long> itemIds = userItems.get(userId);
-        itemIds.add(item.getId());
-        userItems.put(userId, itemIds);
         return item;
     }
 
     @Override
     public Item edit(long userId, long itemId, Item item) {
-        Item userItem = items.get(itemId);
+        Item userItem = findById(itemId);
         if (item.getName() != null) {
             userItem.setName(item.getName());
         }
@@ -41,22 +36,24 @@ public class ItemDaoImpl implements ItemDao {
         if (item.getOwner() != null) {
             userItem.setOwner(item.getOwner());
         }
-        items.put(itemId, userItem);
         return userItem;
     }
 
     @Override
     public Item findById(long itemId) {
-        return items.get(itemId);
+        Set<Item> all = getAllItems();
+        for (Item item : all) {
+            if (item.getId() == itemId) {
+                return item;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Item> findAll(long userId) {
         if (userItems.containsKey(userId)) {
-            List<Item> result = new ArrayList<>();
-            for (Long itemId: userItems.get(userId)) {
-                result.add(items.get(itemId));
-            }
+            List<Item> result = new ArrayList<>(userItems.get(userId));
             return result;
         }
         return new ArrayList<>();
@@ -65,12 +62,20 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public List<Item> search(String text) {
         List<Item> result = new ArrayList<>();
-        for (Item item: items.values()) {
+        for (Item item: getAllItems()) {
             if (item.getAvailable() && (item.getName().toLowerCase().contains(text.toLowerCase())
             || item.getDescription().toLowerCase().contains(text.toLowerCase()))) {
                 result.add(item);
             }
         }
         return result;
+    }
+
+    private Set<Item> getAllItems() {
+        Set<Item> all = new HashSet<>();
+        for (Set<Item> set: userItems.values()) {
+            all.addAll(set);
+        }
+        return all;
     }
 }
